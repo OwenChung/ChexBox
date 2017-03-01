@@ -50,11 +50,13 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'ChexBox.urls'
+##added during a tutorial, feel free to change as necessary##
+LOGIN_REDIRECT_URL='/'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
