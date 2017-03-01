@@ -1,0 +1,22 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ChexBox</title>
+    <link rel="stylesheet" href="{% static "css/foundation.css" %}">
+</head>
+<body>
+    <section class="row">
+        <header class="large-12 columns">
+            <h1>Welcome to ChexBox!</h1>
+            <hr>
+        </header>
+	{% if user.is_authenticated %}
+            <p>Welcome {{ user.username }}!!!</p>    
+            <li><a href="/logout">Logout!</a></li>  
+	{% else %}
+	    <li><a href="/login">Login!</a></li> 
+        {% endif %}
+    </section>
+</body>
+</html>
