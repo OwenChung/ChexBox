@@ -22,6 +22,8 @@ from . import views
 urlpatterns = [
     url(r'^$', views.HomeView.as_view(), name='home'),
     url(r'^admin/', admin.site.urls),
-    url(r'^login/$', auth_views.login, name='login'),
-    url(r'^logout/$', auth_views.logout, name='logout'),
+    url(r'^accounts/login/$', auth_views.login, name='login'),
+    url(r'^accounts/logout/$', auth_views.logout, name='logout'),
+    url(r'^accounts/register/$', views.register, name='register'),
+    url(r'^accounts/register/complete/$', views.registration_complete, name='registration_complete'),
 ]

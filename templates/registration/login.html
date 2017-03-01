@@ -2,27 +2,34 @@
 
 {% block content %}
     
-    <li><a href="/">Home</a></li>    
-
-    {% if form.errors %}
+    <li><a href="{% url 'home' %}">Home</a></li>    
+    
+    {% if user.is_authenticated %}
+        <p>You're already logged in, {{ user.username }}!!!</p>
+        <li><a href="{% url 'logout' %}">Logout!</a></li>
+    {% else %}
+        <li><a href="{% url 'login' %}">Login!</a></li>
+        
+    	{% if form.errors %}
         <p>Your username and password didn't match. Please try again.</p>
+
+	    <form method="post" action="{% url 'login' %}">
+	        {% csrf_token %}
+	        <table>
+	            <tr>
+	                <td>{{ form.username.label_tag }}</td>
+	                <td>{{ form.username }}</td>
+	            </tr>
+	            <tr>
+	                <td>{{ form.password.label_tag }}</td>
+	                <td>{{ form.password }}</td>
+	            </tr>
+	       </table>
+
+	       <input type="submit" value="login" />
+	       <input type="hidden" name="next" value="{{ next }}" />
+	   </form>
+	    <a href="{% url 'register' %}">register</a>
+    	{% endif %}
     {% endif %}
-
-    <form method="post" action="{% url 'login' %}">
-        {% csrf_token %}
-        <table>
-            <tr>
-                <td>{{ form.username.label_tag }}</td>
-                <td>{{ form.username }}</td>
-            </tr>
-            <tr>
-                <td>{{ form.password.label_tag }}</td>
-                <td>{{ form.password }}</td>
-            </tr>
-       </table>
-
-       <input type="submit" value="login" />
-       <input type="hidden" name="next" value="{{ next }}" />
-   </form>
-
 {% endblock %}
