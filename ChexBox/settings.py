@@ -25,7 +25,7 @@ SECRET_KEY = ')uwv114z@0xg!5$934yi7+fb00go2h(d0*ruh)+)nxeoo(!+9u'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['colab-sbx-148.oit.duke.edu']
+ALLOWED_HOSTS = ['colab-sbx-148.oit.duke.edu','127.0.0.1']
 
 
 # Application definition
@@ -121,3 +121,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'chexbox.DONOTREPLY@gmail.com'
+EMAIL_HOST_PASSWORD = 'chexbox4lyfe'
+EMAIL_PORT = 587
