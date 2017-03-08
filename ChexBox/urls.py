@@ -20,17 +20,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from userlogin import views as login_views
-from userlogin.views import FileListView, FileAddView
 
 from . import views
 
-
-
 urlpatterns = [
-    #url(r'^$', views.HomeView.as_view(), name='home'),
-    url(r'^$', FileListView.as_view(), name='home'),
+    url(r'^$', login_views.index, name='index'),
+    url(r'^home/$', login_views.FileListView.as_view(), name='home'),
     url(r'^admin/', admin.site.urls),
-    url(r'^add$', FileAddView.as_view(), name='filebaby-add'),
+    url(r'^add$',  login_views.upload_file, name='chexbox-add'),
     url(r'^accounts/login/$', auth_views.login, name='login'),
     url(r'^accounts/logout/$', auth_views.logout, name='logout'),
     url(r'^accounts/register/$', login_views.register, name='register'),
@@ -49,5 +46,7 @@ urlpatterns = [
         auth_views.password_reset_complete, name='password_reset_complete'),
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+#if settings.DEBUG:
+#    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

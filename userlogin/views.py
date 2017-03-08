@@ -1,14 +1,22 @@
 from django.shortcuts import render, render_to_response
 from userlogin.forms import UserCreationForm
 from django.http import HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 from django.views.generic import ListView, FormView
 from django.contrib import messages
 from django.core.urlresolvers import reverse_lazy
-from .models import FilebabyFile
-from .forms import FilebabyForm
+from .models import FileModel
+from .forms import UploadForm
 
 # Create your views here.
+
+def index(request):
+    if request.user.is_authenticated(): #if already logged in
+        return HttpResponseRedirect('home') #redirect to the homepage
+    return render_to_response('index.html') #otherwise show them the index page 
+					    #(gives option to login)
 
 def register(request):
     if request.method == 'POST':
@@ -27,25 +35,29 @@ def register(request):
 def registration_complete(request):
     return render_to_response('registration/registration_complete.html')
 
+
 class FileListView(ListView):
-
-    model = FilebabyFile
-    queryset = FilebabyFile.objects.order_by('-id')
+    model = FileModel
     context_object_name = "files"
-    #template_name = "filebaby/index.html"
-    template_name = "index.html"
+    template_name = "home.html"
     paginate_by = 5
+    
+    def get_queryset(self):
+        if self.request.user.is_authenticated():
+            queryset = FileModel.objects.all()
+            queryset = queryset.filter(user=self.request.user)
+            return queryset.values('f').order_by('-id')
+        return FileModel.objects.none()
 
-
-class FileAddView(FormView):
-
-    form_class = FilebabyForm
-    success_url = reverse_lazy('home')
-    #template_name = "filebaby/add.html"
-    template_name = "add-boring.html"
-
-    def form_valid(self, form):
-        form.save(commit=True)
-        messages.success(self.request, 'File uploaded!', fail_silently=True)
-        return super(FileAddView, self).form_valid(form)
-
+@login_required
+def upload_file(request):
+    if request.user.is_authenticated() and request.method == 'POST': 
+        form = UploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            newUpload = FileModel(f = request.FILES['f'])
+            newUpload.user = request.user
+            newUpload.save()
+            return HttpResponseRedirect('/')
+    else:
+        form = UploadForm()
+    return render(request, 'add-boring.html', {'form': form})
