@@ -25,7 +25,7 @@ SECRET_KEY = ')uwv114z@0xg!5$934yi7+fb00go2h(d0*ruh)+)nxeoo(!+9u'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['152.3.53.251', 'colab-sbx-248.oit.duke.edu']
+ALLOWED_HOSTS = [colab-sbx-248.oit.duke.edu, 152.3.53.251]
 
 
 # Application definition
@@ -137,4 +137,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
