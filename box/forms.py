@@ -21,4 +21,3 @@ class UploadForm(forms.ModelForm):
     class Meta:
         model = FileModel
         exclude = ["user"]
-

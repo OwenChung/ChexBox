@@ -19,20 +19,15 @@ from django.conf.urls.static import static
 #from django.conf.urls.defaults import *
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from userlogin import views as login_views
 
 from . import views
 
 urlpatterns = [
-    url(r'^$', login_views.index, name='index'),
-    url(r'^home/$', login_views.FileListView.as_view(), name='home'),
+    url(r'^', include('box.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^add$',  login_views.upload_file, name='chexbox-add'),
+    
     url(r'^accounts/login/$', auth_views.login, name='login'),
-    url(r'^accounts/logout/$', auth_views.logout, name='logout'),
-    url(r'^accounts/register/$', login_views.register, name='register'),
-    url(r'^accounts/register/complete/$', login_views.registration_complete, 
-      name='registration_complete'),
+    url(r'^accounts/logout/$', auth_views.logout, name='logout'),       
     url(r'^accounts/password/reset/$', 
         auth_views.password_reset, 
         {'post_reset_redirect' : 'password_reset_done'},
@@ -44,6 +39,13 @@ urlpatterns = [
         {'post_reset_redirect' : 'password_reset_complete'}, name='password_reset_confirm'),
     url(r'^accounts/password/done/$', 
         auth_views.password_reset_complete, name='password_reset_complete'),
+               
+#     url(r'^$', login_views.index, name='index'),
+#     url(r'^home/$', login_views.FileListView.as_view(), name='home'),            
+#     url(r'^add$',  login_views.upload_file, name='chexbox-add'),
+#     url(r'^accounts/register/$', login_views.register, name='register'),
+#     url(r'^accounts/register/complete/$', login_views.registration_complete, 
+#       name='registration_complete'),
 ]
 
 #if settings.DEBUG:
