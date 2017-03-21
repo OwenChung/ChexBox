@@ -31,6 +31,8 @@
 <div class="list-group">
   {% for file in files %}
   <a href="{% get_media_prefix %}{{ file.f}}" class="list-group-item">{{ file.f }}</a>
+  <button type="button">Favorite</button>
+  <button type="button">Delete</button>
   {% endfor %}
 </div>
 
