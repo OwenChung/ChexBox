@@ -1,3 +1,5 @@
+{% extends "base.html" %}
+{% block content %}
 {% if not user.is_authenticated %}
     <meta http-equiv="REFRESH" content="0;url={% url 'box:index' %}">
 {% endif %}
@@ -6,10 +8,6 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-    <title>ChexBox</title>
-    <link rel="stylesheet" href="{% static "css/foundation.css" %}">
-</head>
 <body>
     <section class="row">
         <header class="large-12 columns">
@@ -17,9 +15,7 @@
             <hr>
         </header>
 	{% if user.is_authenticated %}
-            <p>Welcome {{ user.username }}!!!</p>    
-            <li><a href="{% url 'logout' %}">Logout!</a></li> 
-            <li><a href="{% url 'box:chexbox-add' %}">Upload file</a></li> 
+            <p><a href="{% url 'box:chexbox-add' %}">Upload file</a></p> 
 	{% else %}
 	    <li><a href="{% url 'login' %}">Login!</a></li> 
         {% endif %}
@@ -28,29 +24,14 @@
 
 {% load static %}
 
-{% block content %}
+<h2>Your uploads!</h2>
 
 {% if files %}
 
-<h1>The files</h1>
-
-<div class="panel">
-  <table>
-    <thead>
-      <tr>
-<!--        <th>Primary Key</th> -->
-        <th>Filename</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for file in files %}
-      <tr>
-<!--        <td>{{ file.id }}</td> -->
-        <td><a href="{% get_media_prefix %}{{ file.f }}">{{ file.f }}</a></td>
-      </tr>
-      {% endfor %}
-    </tbody>    
-  </table>
+<div class="list-group">
+  {% for file in files %}
+  <a href="{% get_media_prefix %}{{ file.f}}" class="list-group-item">{{ file.f }}</a>
+  {% endfor %}
 </div>
 
 
@@ -81,14 +62,12 @@
 
 {% elif user.is_authenticated %}
 
-<h1>The files</h1>
-
   <!--                        -->
   <!-- Your database is empty -->
   <!--                        -->
 
 <div class="panel">
-  <p>No files found &nbsp;&nbsp; :(</p>
+  <p>You haven't uploaded a file yet!</p>
   <p>(hint: Add a <a href="{% url 'box:chexbox-add' %}" title="Add a file">file</a>)</p>
 </div>
 

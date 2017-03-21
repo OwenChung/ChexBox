@@ -1,12 +1,46 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>My Project</title>
-    </head>
-
-    <body>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .navbar {
+        display: inline-block;
+      }
+    </style>
+    <title>ChexBox</title>
+    {% load bootstrap3 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+  </head>
+  <body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">ChexBox</a>
+    </div>
+    <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+                    {% if user.is_authenticated %}
+                        <li class="navbar-text">Welcome, {{ user.username }}!</li>
+                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url 'box:register' %}">Register</a></li>
+                        <li><a href="{% url 'login' %}">Login</a></li>
+                    {% endif %}
+              </ul>
+        </div>
+  </div>
+</div>
+   <div class="container">
     {% block content %}
-    
-    {% endblock content %}
-    </body>
+    {% endblock %}
+   </div>
+  </body>
 </html>
