@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-    
-    <li><a href="{% url 'box:home' %}">Home</a></li>    
     {% if user.is_authenticated %}
         <p>You've already logged in!</p>
         <li><a href="{% url 'logout' %}">logout</a></li>
@@ -27,9 +25,9 @@
            <input type="submit" value="login" />
            <input type="hidden" name="next" value="{{ next }}" />
        </form>
-
-       <a href="{% url 'box:register' %}">register</a>
-       <li><a href="{% url 'password_reset' %}">forgot password?</a></li>
+       <p></p>
+       <p> Don't have an account yet? Perhaps you'd like to <a href="{% url 'box:register' %}">register</a>!</p>
+       <p> <a href="{% url 'password_reset' %}">Forget your password?</a></p>
    {% endif %}
 
 {% endblock %}

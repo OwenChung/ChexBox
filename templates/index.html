@@ -1,9 +1,10 @@
+{% extends "base.html" %}
 {% load staticfiles %}
+{% block content %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>ChexBox</title>
-    <link rel="stylesheet" href="{% static "css/foundation.css" %}">
 </head>
 <body>
     <section class="row">
@@ -14,12 +15,9 @@
 	{% if user.is_authenticated %}
             <p>Welcome {{ user.username }}!!!</p>    
             <li><a href="{% url 'logout' %}">Logout!</a></li>  
-	{% else %}
-            <p> testing </p>
-	    <li><a href="{% url 'login' %}">Login!</a></li> 
         {% endif %}
     </section>
 </body>
-
+{% endblock %}
 {% load static %}
 
