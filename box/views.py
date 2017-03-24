@@ -45,6 +45,7 @@ class FileListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(FileListView, self).get_context_data(**kwargs)
         context['file_list'] = FileModel.objects.all()
+        context['favorites_list'] = FileModel.objects.filter(isfavorite = True)
         return context    
     
     def get_queryset(self):
@@ -71,4 +72,11 @@ def upload_file(request):
 def delete_file(request, pk):
     indiv_file = FileModel.objects.get(id = pk)
     indiv_file.delete()
+    return redirect(reverse('box:home'))
+
+@login_required(login_url='/login/')
+def favorite_file(request, pk):
+    indiv_file = FileModel.objects.get(id = pk)
+    indiv_file.isfavorite = True
+    indiv_file.save()
     return redirect(reverse('box:home'))
