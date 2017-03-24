@@ -18,7 +18,7 @@
             <p><a href="{% url 'box:chexbox-add' %}">Upload file</a></p> 
 	{% else %}
 	    <li><a href="{% url 'login' %}">Login!</a></li> 
-        {% endif %}
+    {% endif %}
     </section>
 </body>
 
@@ -26,13 +26,13 @@
 
 <h2>Your uploads!</h2>
 
-{% if files %}
+{% if file_list %}
 
 <div class="list-group">
-  {% for file in files %}
-  <a href="{% get_media_prefix %}{{ file.f}}" class="list-group-item">{{ file.f }}</a>
-  <button type="button">Favorite</button>
-  <button type="button">Delete</button>
+  {% for file in file_list %}
+  	<a href="{% get_media_prefix %}{{ file.f}}" class="list-group-item">{{ file.f }}</a>
+  	<a onclick="return confirm('Are you sure you want to delete the file?')" href="{% url 'box:delete_file' file.id %}" class="btn btn-danger">Delete File</a>
+  	
   {% endfor %}
 </div>
 

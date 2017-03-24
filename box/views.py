@@ -1,8 +1,9 @@
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render, render_to_response, redirect
 from .forms import UserCreationForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 
 from django.views.generic import ListView, FormView
 from django.contrib import messages
@@ -41,6 +42,10 @@ class FileListView(ListView):
     context_object_name = "files"
     template_name = "home.html"
     paginate_by = 5
+    def get_context_data(self, **kwargs):
+        context = super(FileListView, self).get_context_data(**kwargs)
+        context['file_list'] = FileModel.objects.all()
+        return context    
     
     def get_queryset(self):
         if self.request.user.is_authenticated():
@@ -61,3 +66,9 @@ def upload_file(request):
     else:
         form = UploadForm()
     return render(request, 'add-boring.html', {'form': form})
+
+@login_required(login_url='/login/')
+def delete_file(request, pk):
+    indiv_file = FileModel.objects.get(id = pk)
+    indiv_file.delete()
+    return redirect(reverse('box:home'))
