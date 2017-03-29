@@ -31,7 +31,7 @@
 		{% if file.isfavorite %}
   		<a href="{% get_media_prefix %}{{ file.f}}" class="list-group-item">{{ file.f }}</a>
   		<a href="{% url 'box:unfavorite_file' file.id %}" class="btn btn-primary">Remove from Favorites</a>
-                <a href="{% url 'box:share_file' file.id %}" class="btn btn-primary">Share</a>
+                <a href="{% url 'box:share_file' file.id %}" class="btn btn-success">Share</a>
  		<a onclick="return confirm('Are you sure you want to delete the file?')" href="{% url 'box:delete_file' file.id %}" class="btn btn-danger">Delete File</a>
   		{% endif %}
 	{% endfor %}
@@ -40,7 +40,7 @@
   {% for file in file_list %}
   	<a href="{% get_media_prefix %}{{ file.f}}" class="list-group-item">{{ file.f }}</a>
   	<a href="{% url 'box:favorite_file' file.id %}" class="btn btn-primary">Add to Favorites</a>
-        <a href="{% url 'box:share_file' file.id %}" class="btn btn-primary">Share</a>
+        <a href="{% url 'box:share_file' file.id %}" class="btn btn-success">Share</a>
   	<a onclick="return confirm('Are you sure you want to delete the file?')" href="{% url 'box:delete_file' file.id %}" class="btn btn-danger">Delete File</a>
   {% endfor %}
 </div>
