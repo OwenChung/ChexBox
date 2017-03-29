@@ -46,12 +46,12 @@ class FileListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(FileListView, self).get_context_data(**kwargs)
         if self.request.user.is_authenticated():
-            print(self.request.user.username)
+            #print(self.request.user.username)
             files = FileModel.objects.filter(user=self.request.user) | FileModel.objects.filter(shared_with__contains=[self.request.user.username])
         else:
             files = FileModel.objects.none()
         context['file_list'] = files
-        print(FileModel.objects.all().values('f'))
+        #print(FileModel.objects.all().values('f'))
         context['favorites_list'] = files.filter(isfavorite = True)
         return context    
     
@@ -90,10 +90,10 @@ def unfavorite_file(request, pk):
 
 @login_required(login_url='/login/')
 def share_file(request, pk):
-    print(request.method)
+    #print(request.method)
     if request.method == 'POST':
         form = ShareForm(request.POST)
-        print(form)
+        #print(form)
         if form.is_valid():
             indiv_file = FileModel.objects.get(id = pk)
             #indiv_file.shared_with.add(form.to_username)        
