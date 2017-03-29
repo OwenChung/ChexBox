@@ -80,3 +80,10 @@ def favorite_file(request, pk):
     indiv_file.isfavorite = True
     indiv_file.save()
     return redirect(reverse('box:home'))
+
+@login_required(login_url='/login/')
+def unfavorite_file(request, pk):
+    indiv_file = FileModel.objects.get(id = pk)
+    indiv_file.isfavorite = False
+    indiv_file.save()
+    return redirect(reverse('box:home'))
