@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.contrib.postgres.fields import ArrayField
 # Create your models here.
 
 def get_upload_path(instance, filename):
@@ -12,3 +12,6 @@ class FileModel(models.Model):
     f = models.FileField(upload_to=get_upload_path)
     user = models.ForeignKey(User)
     isfavorite = models.BooleanField(default = False)
+#    shared_with = [User.username]
+    shared_with = ArrayField(models.CharField(max_length=30),blank=True,null=True)
+ 
