@@ -1,5 +1,6 @@
 from django.shortcuts import render, render_to_response, redirect
 from .forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
@@ -96,10 +97,11 @@ def share_file(request, pk):
         #print(form)
         if form.is_valid():
             indiv_file = FileModel.objects.get(id = pk)
-            #indiv_file.shared_with.add(form.to_username)        
-            indiv_file.shared_with = [indiv_file.shared_with, (form.cleaned_data['to_username'])]
-            indiv_file.save()
-            return redirect(reverse('box:home'))
+            #indiv_file.shared_with.add(form.to_username)       
+            if User.objects.filter(username=form.cleaned_data['to_username']).exists(): 
+                indiv_file.shared_with = [indiv_file.shared_with, (form.cleaned_data['to_username'])]
+                indiv_file.save()
+                return redirect(reverse('box:home'))
     else:
         form = ShareForm()
     return render(request, 'share.html', {'form': form}) 
