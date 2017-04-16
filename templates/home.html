@@ -32,7 +32,9 @@
 
 
 {% if file_list %}
-<p><a href="{% url 'box:chexbox-add' %}">Upload file</a></p> 
+<p>
+	<a href="{% url 'box:chexbox-add' %}" class="btn btn-primary">Upload file</a>
+</p> 
 <p></p>
 <h2>Your favorites!</h2>
 	{% for file in file_list %}
