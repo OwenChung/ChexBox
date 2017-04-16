@@ -21,3 +21,6 @@ class UploadForm(forms.ModelForm):
     class Meta:
         model = FileModel
         exclude = ["user"]
+
+class ShareForm(forms.Form):
+    to_username = forms.CharField(label='Shared with', max_length=30)

@@ -1,3 +1,5 @@
+{% extends "base.html" %}
+{% block content %}
 {% if not user.is_authenticated %}
     <meta http-equiv="REFRESH" content="0;url={% url 'box:index' %}">
 {% endif %}
@@ -6,10 +8,13 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-    <title>ChexBox</title>
-    <link rel="stylesheet" href="{% static "css/foundation.css" %}">
-</head>
+<style type="text/css">
+    a{
+      display: inline;
+      float: left;
+    }
+</style>
+
 <body>
     <section class="row">
         <header class="large-12 columns">
@@ -17,40 +22,34 @@
             <hr>
         </header>
 	{% if user.is_authenticated %}
-            <p>Welcome {{ user.username }}!!!</p>    
-            <li><a href="{% url 'logout' %}">Logout!</a></li> 
-            <li><a href="{% url 'box:chexbox-add' %}">Upload file</a></li> 
+            <p><a href="{% url 'box:chexbox-add' %}">Upload file</a></p> 
 	{% else %}
 	    <li><a href="{% url 'login' %}">Login!</a></li> 
-        {% endif %}
+    {% endif %}
     </section>
 </body>
 
 {% load static %}
 
-{% block content %}
 
-{% if files %}
-
-<h1>The files</h1>
-
-<div class="panel">
-  <table>
-    <thead>
-      <tr>
-<!--        <th>Primary Key</th> -->
-        <th>Filename</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for file in files %}
-      <tr>
-<!--        <td>{{ file.id }}</td> -->
-        <td><a href="{% get_media_prefix %}{{ file.f }}">{{ file.f }}</a></td>
-      </tr>
-      {% endfor %}
-    </tbody>    
-  </table>
+{% if file_list %}
+<h2>Your favorites!</h2>
+	{% for file in file_list %}
+		{% if file.isfavorite %}
+  		<a href="{% get_media_prefix %}{{ file.f}}" class="list-group-item">{{ file.f }}</a>
+  		<a href="{% url 'box:unfavorite_file' file.id %}" class="btn btn-primary">Remove from Favorites</a>
+                <a href="{% url 'box:share_file' file.id %}" class="btn btn-success">Share</a>
+ 		<a onclick="return confirm('Are you sure you want to delete the file?')" href="{% url 'box:delete_file' file.id %}" class="btn btn-danger">Delete File</a>
+  		{% endif %}
+	{% endfor %}
+<h2>All uploads!</h2>
+<div class="list-group">
+  {% for file in file_list %}
+  	<a href="{% get_media_prefix %}{{ file.f}}" class="list-group-item">{{ file.f }}</a>
+  	<a href="{% url 'box:favorite_file' file.id %}" class="btn btn-primary">Add to Favorites</a>
+        <a href="{% url 'box:share_file' file.id %}" class="btn btn-success">Share</a>
+  	<a onclick="return confirm('Are you sure you want to delete the file?')" href="{% url 'box:delete_file' file.id %}" class="btn btn-danger">Delete File</a>
+  {% endfor %}
 </div>
 
 
@@ -81,14 +80,12 @@
 
 {% elif user.is_authenticated %}
 
-<h1>The files</h1>
-
   <!--                        -->
   <!-- Your database is empty -->
   <!--                        -->
 
 <div class="panel">
-  <p>No files found &nbsp;&nbsp; :(</p>
+  <p>You haven't uploaded a file yet!</p>
   <p>(hint: Add a <a href="{% url 'box:chexbox-add' %}" title="Add a file">file</a>)</p>
 </div>
 
